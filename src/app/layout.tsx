@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  verification: {
+    google: "Aj3hyozFjklDX3tH4JdgwTcpRNxAk3uXxp_b2AR4y94",
+  },
   alternates: {
     canonical: SITE_URL,
   },

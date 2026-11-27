@@ -1,6 +1,6 @@
 # Reporte Final — ScopeCraft (CraftApp Studio)
 
-**Fecha:** 26 de noviembre de 2026  
+**Fecha:** 27 de noviembre de 2026  
 **Proyecto:** ScopeCraft — Constructor de Statements of Work (SOW) y Change Orders  
 **URL en producción:** https://scopecraft-sow.vercel.app  
 **Repositorio público (GitHub):** https://github.com/matiascorrea2024-star/scopecraft-sow  
@@ -23,22 +23,28 @@ Después de analizar 3 nichos B2B/prosumer en EE. UU. (detalle completo en `RESE
 
 ## 2. Canales y activos ya dejados funcionando automáticamente
 
-1. **App en producción en Vercel (proyecto aislado `scopecraft-sow`):** https://scopecraft-sow.vercel.app (con Vercel Analytics activo).
-2. **Motor SEO completo e indexación disparada:**
-   - `https://scopecraft-sow.vercel.app/sitemap.xml` (33 URLs: Home, `/templates`, `/pricing` y 30 playbooks verticales).
-   - `https://scopecraft-sow.vercel.app/robots.txt` y OpenGraph editorial (`/opengraph-image`).
-   - **IndexNow ejecutado vía IPv4:** 33 URLs enviadas con éxito (`HTTP/2 200` en `api.indexnow.org/indexnow` y `HTTP/2 202` en `www.bing.com/indexnow`).
-3. **Repositorio público en GitHub:** `https://github.com/matiascorrea2024-star/scopecraft-sow` (verificado que `launch_kit/license_keys_500.txt`, `.env*`, `.vercel/` y `audit_screenshots/` **NO** se subieron).
-4. **Kit de licencias y lanzamiento en `launch_kit/`:**
-   - `launch_kit/license_keys_500.txt`: 500 claves únicas `SC-PRO-XXXX-XXXX-XXXX` listas para entregar (solo sus hashes SHA-256 con salt viven en el código).
-   - `launch_kit/editorial_cover_1280x720.png`: portada editorial `1280x720` lista para Product Hunt.
-   - `launch_kit/LAUNCH_COPY.md`: textos exactos listos para copiar y pegar.
-   - `launch_kit/AUTO_DELIVERY_UPGRADE.md`: paso a paso para automatizar entrega de claves 24/7.
+| Canal / Activo | Estado | Evidencia verificada |
+| :--- | :--- | :--- |
+| **App en producción (Vercel `scopecraft-sow`)** | Activo | https://scopecraft-sow.vercel.app (con Vercel Analytics y PayPal conectado) |
+| **Google Search Console** | Verificado + Sitemap enviado | Propiedad verificada por archivo HTML (`googleeeadd0343e341097.html` + meta tag); `/sitemap.xml` en estado **Correcto** con **33 páginas descubiertas** |
+| **IndexNow (Bing / DuckDuckGo / Yandex)** | Enviado | `HTTP/2 200` en `api.indexnow.org/indexnow` y `HTTP/2 202` en `www.bing.com/indexnow` (33 URLs) |
+| **Repositorio público en GitHub** | Publicado | `https://github.com/matiascorrea2024-star/scopecraft-sow` (`launch_kit/license_keys_500.txt`, `.env*`, `.vercel/` y `audit_screenshots/` excluidos) |
+| **Kit de licencias y lanzamiento (`launch_kit/`)** | Listo | 500 claves en `license_keys_500.txt`, portada `editorial_cover_1280x720.png`, copy en `LAUNCH_COPY.md`, guía Payhip en `AUTO_DELIVERY_UPGRADE.md` |
 
 ---
 
-## 3. Los únicos 3 clics que quedan para Matías
+## 3. Estado de directorios externos (chequeados en navegador interno)
 
-1. **Google Search Console (1 min):** Entrá a https://search.google.com/search-console, agregá `https://scopecraft-sow.vercel.app` y enviá el sitemap `https://scopecraft-sow.vercel.app/sitemap.xml`.
-2. **Publicar el lanzamiento (5 min):** Abrí `launch_kit/LAUNCH_COPY.md` y pegá los textos + la portada `launch_kit/editorial_cover_1280x720.png` en **Product Hunt**, **Hacker News (Show HN)**, **AlternativeTo** e **IndieHackers**.
-3. **Automatizar entrega 24/7 cuando entren los primeros pagos (3 min):** Seguí `launch_kit/AUTO_DELIVERY_UPGRADE.md` para cargar las claves restantes en **Payhip** (conectado a tu mismo PayPal) y setear `NEXT_PUBLIC_BILLING_PROVIDER=payhip` en Vercel. Mientras tanto, si alguien te paga directo a `paypal.me/craftappstudio`, le respondés con una línea de `launch_kit/license_keys_500.txt`.
+Se revisaron los 5 portales en el navegador interno; ninguno tenía sesión iniciada (`LOGIN_REQUIRED`) y no se crearon cuentas ni se saltearon accesos:
+- **Hacker News (Show HN):** `https://news.ycombinator.com/submit` — requiere login.
+- **Product Hunt:** `https://www.producthunt.com/posts/new` — redirige a login/signup.
+- **AlternativeTo:** `https://alternativeto.net/` — `Suggest new application` requiere iniciar sesión.
+- **IndieHackers:** `https://www.indiehackers.com/new-post` — redirige a `/sign-in`.
+- **Payhip:** `https://payhip.com/` — sin sesión iniciada (`Login` visible).
+
+---
+
+## 4. Los únicos 2 pasos que te quedan (cuando quieras)
+
+1. **Publicar el lanzamiento (5 min):** Iniciá sesión en Product Hunt, Hacker News (`news.ycombinator.com/submit`), AlternativeTo e IndieHackers y pegá los textos de `launch_kit/LAUNCH_COPY.md` junto con `launch_kit/editorial_cover_1280x720.png`.
+2. **Automatizar entrega 24/7 al entrar las primeras ventas (3 min):** Seguí `launch_kit/AUTO_DELIVERY_UPGRADE.md` para cargar las claves de `launch_kit/license_keys_500.txt` en Payhip (conectado a tu mismo PayPal) y setear `NEXT_PUBLIC_BILLING_PROVIDER=payhip` en Vercel. Mientras tanto, si te pagan directo por `paypal.me/craftappstudio`, entregás una línea de `launch_kit/license_keys_500.txt`.
