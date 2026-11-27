@@ -423,54 +423,72 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
       />
 
       <main className="flex-1">
-        {/* Compact Editorial Hero + Interactive Workbench */}
-        <section id="studio" className="border-b border-hairline bg-canvas">
-          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 pt-7 pb-10">
-            {/* Editorial Headline & Mode Strip */}
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 pb-6 border-b border-hairline">
-              <div className="max-w-2xl">
-                <p className="font-mono text-[11px] uppercase tracking-widest text-forest font-medium">
-                  No-Signup SOW &amp; Change Order Studio
-                </p>
-                <h1 className="font-serif text-3xl sm:text-5xl text-ink tracking-tight leading-[1.08] mt-2">
-                  Watertight Statements of Work, ready in 60 seconds.
-                </h1>
-                <p className="text-sm sm:text-base text-ink-secondary mt-2.5 leading-relaxed">
-                  Lock down deliverables, explicit out-of-scope exclusions, milestone deposits, and Change Order rates in a single US Letter PDF.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-                <div
-                  className="inline-flex rounded-md border border-hairline bg-subtle p-1"
-                  role="group"
-                  aria-label="Document mode"
-                >
-                  <button
-                    type="button"
-                    onClick={() => handleToggleMode("sow")}
-                    className={`min-h-[44px] px-3.5 rounded text-xs sm:text-sm font-medium transition-colors ${
-                      doc.mode === "sow"
-                        ? "bg-paper text-ink shadow-sm"
-                        : "text-ink-secondary hover:text-ink"
-                    }`}
-                  >
-                    Statement of Work
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleToggleMode("change_order")}
-                    className={`min-h-[44px] px-3.5 rounded text-xs sm:text-sm font-medium transition-colors ${
-                      doc.mode === "change_order"
-                        ? "bg-paper text-ink shadow-sm"
-                        : "text-ink-secondary hover:text-ink"
-                    }`}
-                  >
-                    Change Order
-                  </button>
-                </div>
+        {/* Executive Obsidian Hero Band */}
+        <section className="relative bg-[#090D16] text-white border-b border-white/10 overflow-hidden">
+          <div className="absolute inset-0 bg-grid-dark pointer-events-none" />
+          <div className="absolute inset-0 hero-glow-emerald pointer-events-none" />
+          <div className="relative max-w-[1360px] mx-auto px-4 sm:px-6 py-9 sm:py-11 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 font-mono text-[11px] uppercase tracking-widest text-emerald-300 font-semibold">
+                No-Signup SOW &amp; Change Order Studio
+              </p>
+              <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-[-0.035em] leading-[1.05] mt-3">
+                Stop unpaid scope creep before project kickoff.
+              </h1>
+              <p className="text-sm sm:text-base text-slate-300 mt-3 leading-relaxed">
+                Lock down deliverables, explicit out-of-scope exclusions, milestone deposits, and paid Change Order terms in a single executive US Letter PDF.
+              </p>
+              <div className="mt-5 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-300">
+                <span className="px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/10">
+                  <strong className="text-emerald-300">01</strong> Pick Preset
+                </span>
+                <span className="text-slate-500">→</span>
+                <span className="px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/10">
+                  <strong className="text-emerald-300">02</strong> Score &amp; Lock Guardrails
+                </span>
+                <span className="text-slate-500">→</span>
+                <span className="px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/10">
+                  <strong className="text-emerald-300">03</strong> Export Client PDF
+                </span>
               </div>
             </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <div
+                className="inline-flex rounded-xl border border-white/15 bg-white/[0.05] p-1 backdrop-blur"
+                role="group"
+                aria-label="Document mode"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleToggleMode("sow")}
+                  className={`min-h-[44px] px-4 rounded-lg text-xs sm:text-sm font-semibold transition-colors ${
+                    doc.mode === "sow"
+                      ? "bg-emerald-500 text-[#031F16]"
+                      : "text-slate-300 hover:text-white"
+                  }`}
+                >
+                  Statement of Work
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleToggleMode("change_order")}
+                  className={`min-h-[44px] px-4 rounded-lg text-xs sm:text-sm font-semibold transition-colors ${
+                    doc.mode === "change_order"
+                      ? "bg-emerald-500 text-[#031F16]"
+                      : "text-slate-300 hover:text-white"
+                  }`}
+                >
+                  Change Order
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Elevated Interactive Workbench */}
+        <section id="studio" className="border-b border-hairline bg-canvas">
+          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 pt-6 pb-14">
 
             {/* Quick Preset Selector Bar */}
             <div className="py-4 flex flex-wrap items-center justify-between gap-3">
@@ -555,14 +573,44 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
               </button>
             </div>
 
-            {/* Split Workbench Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              {/* LEFT: Guided Editor */}
-              <div
-                className={`lg:col-span-6 space-y-4 ${
-                  mobilePane === "editor" ? "block" : "hidden lg:block"
-                }`}
-              >
+            {/* Elevated Studio Workbench Shell */}
+            <div className="rounded-2xl bg-white border border-slate-200/90 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.14)] overflow-hidden">
+              {/* Studio App Chrome Bar */}
+              <div className="px-5 py-3.5 bg-[#0F172A] text-white flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="hidden sm:flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+                  </div>
+                  <span className="font-mono text-xs text-slate-300 truncate">
+                    ScopeCraft Studio · {doc.documentNumber}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2.5 shrink-0">
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 font-mono text-[11px] text-emerald-300 font-semibold tabular-nums">
+                    Score: {scopeReport.score}/100 ({scopeReport.grade})
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleDownloadPdf}
+                    className="hidden lg:inline-flex min-h-[38px] px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#031F16] text-xs font-semibold items-center gap-1.5 transition-colors"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download PDF</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Split Workbench Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 items-start">
+                {/* LEFT: Guided Editor */}
+                <div
+                  className={`lg:col-span-6 p-4 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-200 space-y-4 ${
+                    mobilePane === "editor" ? "block" : "hidden lg:block"
+                  }`}
+                >
                 {/* Scope-Protection Score Card */}
                 <div className="bg-paper border border-hairline rounded-lg p-4">
                   <div className="flex items-center justify-between gap-3">
@@ -1634,21 +1682,13 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
 
               {/* RIGHT: Sticky Live Paper Preview + Toolbar */}
               <div
-                className={`lg:col-span-6 lg:sticky lg:top-20 space-y-3 ${
+                className={`lg:col-span-6 bg-dots-light p-4 sm:p-6 space-y-3 ${
                   mobilePane === "preview" ? "block" : "hidden lg:block"
                 }`}
               >
                 {/* Action Toolbar */}
-                <div className="bg-paper border border-hairline rounded-lg p-2 flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+                <div className="bg-paper border border-hairline rounded-xl p-2 flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 shadow-sm">
                   <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    <button
-                      type="button"
-                      onClick={handleDownloadPdf}
-                      className="hidden lg:inline-flex min-h-[44px] px-4 rounded-md bg-forest hover:bg-forest-hover text-white text-sm font-medium items-center gap-2 transition-colors"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Download PDF</span>
-                    </button>
                     <button
                       type="button"
                       onClick={handleShareSummary}
@@ -2062,6 +2102,7 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                     </div>
                   </div>
                 </article>
+              </div>
               </div>
             </div>
           </div>

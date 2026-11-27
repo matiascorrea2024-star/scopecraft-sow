@@ -10,15 +10,15 @@ interface HeaderProps {
 
 export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 h-16 bg-canvas/95 backdrop-blur border-b border-hairline">
+    <header className="sticky top-0 z-40 h-16 bg-[#090D16]/95 backdrop-blur-xl border-b border-white/10 text-white">
       <div className="max-w-[1360px] mx-auto h-full px-4 sm:px-6 flex items-center justify-between gap-3">
         <Link
           href="/"
-          className="flex items-center gap-2.5 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-forest rounded"
+          className="flex items-center gap-2.5 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
         >
           <span
             aria-hidden="true"
-            className="w-8 h-8 rounded bg-forest text-white flex items-center justify-center shrink-0"
+            className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 flex items-center justify-center shrink-0"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
@@ -26,26 +26,26 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
             </svg>
           </span>
           <span className="flex items-baseline gap-1.5">
-            <span className="font-sans font-semibold text-[15px] tracking-tight text-ink">
+            <span className="font-display font-bold text-[15px] tracking-tight text-white">
               ScopeCraft
             </span>
-            <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-wider text-slate-400">
               by CraftApp
             </span>
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm text-ink-secondary">
-          <Link href="/#studio" className="hover:text-ink transition-colors">
+        <nav className="hidden md:flex items-center gap-6 text-sm text-slate-300">
+          <Link href="/#studio" className="hover:text-white transition-colors">
             Builder
           </Link>
-          <Link href="/audit" className="hover:text-ink transition-colors">
+          <Link href="/audit" className="hover:text-white transition-colors">
             Scope Check
           </Link>
-          <Link href="/templates" className="hover:text-ink transition-colors">
+          <Link href="/templates" className="hover:text-white transition-colors">
             30 Templates
           </Link>
-          <Link href="/pricing" className="hover:text-ink transition-colors">
+          <Link href="/pricing" className="hover:text-white transition-colors">
             Pricing
           </Link>
         </nav>
@@ -53,7 +53,7 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <Link
             href="/templates"
-            className="md:hidden inline-flex items-center justify-center min-h-[44px] px-2 text-xs font-medium text-ink-secondary hover:text-ink"
+            className="md:hidden inline-flex items-center justify-center min-h-[44px] px-2 text-xs font-medium text-slate-300 hover:text-white"
           >
             Templates
           </Link>
@@ -62,7 +62,7 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
             <button
               type="button"
               onClick={onOpenUpgrade}
-              className="inline-flex items-center gap-1.5 min-h-[44px] px-2.5 sm:px-3 rounded-md bg-forest-tint border border-forest/25 text-forest text-xs font-semibold tracking-wide whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 min-h-[44px] px-2.5 sm:px-3 rounded-lg bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 text-xs font-semibold tracking-wide whitespace-nowrap"
             >
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>PRO ACTIVE</span>
@@ -73,7 +73,7 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
                 <button
                   type="button"
                   onClick={onOpenUpgrade}
-                  className="hidden sm:inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-md border border-hairline bg-paper text-xs font-medium text-ink-secondary hover:text-ink hover:border-ink-muted transition-colors"
+                  className="hidden sm:inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-lg border border-white/15 bg-white/[0.05] text-xs font-medium text-slate-200 hover:bg-white/[0.1] hover:text-white transition-colors"
                 >
                   <KeyRound className="w-3.5 h-3.5" />
                   <span>Activate Key</span>
@@ -81,7 +81,7 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
               ) : (
                 <Link
                   href="/pricing#activate"
-                  className="hidden sm:inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-md border border-hairline bg-paper text-xs font-medium text-ink-secondary hover:text-ink hover:border-ink-muted transition-colors"
+                  className="hidden sm:inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-lg border border-white/15 bg-white/[0.05] text-xs font-medium text-slate-200 hover:bg-white/[0.1] hover:text-white transition-colors"
                 >
                   <KeyRound className="w-3.5 h-3.5" />
                   <span>Activate Key</span>
@@ -92,14 +92,14 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
                 <button
                   type="button"
                   onClick={onOpenUpgrade}
-                  className="inline-flex items-center justify-center min-h-[44px] px-3 sm:px-4 rounded-md bg-forest hover:bg-forest-hover text-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+                  className="inline-flex items-center justify-center min-h-[44px] px-3 sm:px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#031F16] text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap"
                 >
                   Upgrade to Pro
                 </button>
               ) : (
                 <Link
                   href="/pricing"
-                  className="inline-flex items-center justify-center min-h-[44px] px-3 sm:px-4 rounded-md bg-forest hover:bg-forest-hover text-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+                  className="inline-flex items-center justify-center min-h-[44px] px-3 sm:px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#031F16] text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap"
                 >
                   Upgrade to Pro
                 </Link>

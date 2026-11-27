@@ -9,24 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ["var(--font-serif)", "Georgia", "serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        serif: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       colors: {
-        canvas: "#FAFAF8",
+        obsidian: "#090D16",
+        canvas: "#F8FAFC",
         paper: "#FFFFFF",
-        subtle: "#F3F2EE",
-        hairline: "#E5E3DC",
+        subtle: "#F1F5F9",
+        hairline: "#E2E8F0",
         ink: {
-          DEFAULT: "#141413",
-          secondary: "#52514B",
-          muted: "#6E6C64",
+          DEFAULT: "#0F172A",
+          secondary: "#475569",
+          muted: "#64748B",
         },
         forest: {
-          DEFAULT: "#0F5C4A",
-          hover: "#0B4638",
-          tint: "#ECF5F2",
+          DEFAULT: "#059669",
+          hover: "#047857",
+          tint: "#ECFDF5",
         },
       },
     },
