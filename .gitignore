@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.vercel/
+.env
+.env.*
+!.env.example
+audit_screenshots/
+launch_kit/license_keys_500.txt
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+.env*
