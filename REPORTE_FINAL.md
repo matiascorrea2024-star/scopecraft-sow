@@ -3,46 +3,43 @@
 **Fecha:** 27 de noviembre de 2026  
 **Proyecto:** ScopeCraft — Constructor de Statements of Work (SOW) y Change Orders  
 **URL en producción:** https://scopecraft-sow.vercel.app  
+**Lanzamiento Product Hunt (Programado):** https://www.producthunt.com/products/scopecraft-2/scopecraft-2/prelaunch (Viernes 27 nov, 12:01am PT / 05:01am ART)  
 **Repositorio público (GitHub):** https://github.com/matiascorrea2024-star/scopecraft-sow  
-**Cobro PayPal activo:** `https://paypal.me/craftappstudio/12USD` (Pro Mensual) y `https://paypal.me/craftappstudio/79USD` (Pro Anual)
+**Cobro PayPal activo:** `https://paypal.me/craftappstudio/12USD` (Pass 30 días) y `https://paypal.me/craftappstudio/79USD` (Pass 365 días)
 
 ---
 
-## 1. Qué construimos y por qué gana
+## 1. Qué construimos y qué validamos con ChatGPT en equipo
 
-Después de analizar 3 nichos B2B/prosumer en EE. UU. (detalle completo en `RESEARCH.md`), elegimos **ScopeCraft**: un estudio web sin registro para que freelancers, consultores, agencias y contratistas armen **Statements of Work (SOW)** y **Change Orders** a prueba de *scope creep* en menos de 60 segundos.
+Después de investigar 3 nichos B2B/prosumer en EE. UU. (`RESEARCH.md`), construimos **ScopeCraft** y realizamos una **auditoría iterativa en vivo con ChatGPT** (`https://chatgpt.com/c/6b090735-9eec-83e9-8d05-1013e876b7cf`) sobre el producto real desplegado en Vercel:
 
-- **Dolor real y frecuente:** Las suites tipo PandaDoc, Proposify o Bonsai cobran USD 24–79+/mes y obligan a usar un CRM pesado. Un solo cambio de alcance mal documentado cuesta USD 500–5.000, lo que hace obvio pagar USD 12/mes o USD 79/año.
-- **Bucle viral orgánico:** Cada usuario gratuito exporta un PDF tamaño US Letter profesional para mandarle a su cliente con el pie discreto `Prepared with ScopeCraft · scopecraft-sow.vercel.app`. En Pro desaparece por completo y se reemplaza por logo, color y pie confidencial propios.
-- **Motor SEO Programático:** 30 páginas estáticas (`/templates/[slug]`) optimizadas con presupuesto típico en EE. UU., trampas de alcance, entregables precargados, FAQ y `JSON-LD` (`SoftwareApplication`, `FAQPage`, `BreadcrumbList`).
-- **Calidad técnica y visual verificada en vivo:**
-  - `tsc --noEmit` (0 errores), `vitest` (3 suites, 8/8 tests pasando), `next build` sin errores.
-  - Auditoría Playwright sobre la URL viva en `1440x900`, `390x844` y `360x800`: **0 px de overflow horizontal** en todas las rutas, **0 errores de consola**, descarga real de PDF verificada (`ScopeCraft_SOW-2026-104.pdf`, 12.176 bytes), links de PayPal verificados, activación Pro con clave real y persistencia tras recargar página.
+- **Estudio arriba del pliegue sin registro:** Constructor de *Statements of Work* y *Change Orders* con exportación PDF US Letter cliente-side (`jspdf`), pie viral discreto en Free (`Prepared with ScopeCraft`) y marca blanca en Pro.
+- **Mejoras implementadas tras la auditoría con ChatGPT:**
+  1. **Upgrade contextual post-export:** Banner no intrusivo al exportar PDF gratis (`PDF Exported — Ready to Send`) para pasar a Pro sin frenar ni romper la versión gratis.
+  2. **Viral loop `Share Summary`:** Botón junto a `Download PDF` que genera un resumen listo para enviar por WhatsApp/Slack/email (Web Share API en celular + portapapeles en compu) con atribución viral en Free.
+  3. **Transparencia del Score (`7/7`):** Desglose expandible de las 7 protecciones comerciales y aclaración explícita de alcance comercial (no asesoría legal).
+  4. **Claridad de datos demo y cobro PayPal:** Aviso `SAMPLE DATA` + botón `Clear sample parties`, distinción explícita de **pase de 30 días ($12) / 365 días ($79) sin renovación automática sorpresa**, e import/export JSON no destructivo en `Saved`.
+- **Verificación técnica y visual en vivo:** `tsc --noEmit` (0 errores), Vitest (`3` suites, `9/9` tests pasando), auditoría Playwright (`1440x900`, `390x844`, `360x800`) con **0 px de overflow**, **0 errores de consola**, descarga real de PDF (`12.176` bytes), links de PayPal verificados y activación Pro persistente.
 
 ---
 
-## 2. Canales y activos ya dejados funcionando automáticamente
+## 2. Estado de todos los canales de distribución
 
-| Canal / Activo | Estado | Evidencia verificada |
+| Canal / Activo | Estado | Evidencia / Resultado |
 | :--- | :--- | :--- |
-| **App en producción (Vercel `scopecraft-sow`)** | Activo | https://scopecraft-sow.vercel.app (con Vercel Analytics y PayPal conectado) |
-| **Google Search Console** | Verificado + Sitemap enviado | Propiedad verificada por archivo HTML (`googleeeadd0343e341097.html` + meta tag); `/sitemap.xml` en estado **Correcto** con **33 páginas descubiertas** |
-| **IndexNow (Bing / DuckDuckGo / Yandex)** | Enviado | `HTTP/2 200` en `api.indexnow.org/indexnow` y `HTTP/2 202` en `www.bing.com/indexnow` (33 URLs) |
-| **Repositorio público en GitHub** | Publicado | `https://github.com/matiascorrea2024-star/scopecraft-sow` (`launch_kit/license_keys_500.txt`, `.env*`, `.vercel/` y `audit_screenshots/` excluidos) |
-| **Kit de licencias y lanzamiento (`launch_kit/`)** | Listo | 500 claves en `license_keys_500.txt`, portada `editorial_cover_1280x720.png`, copy en `LAUNCH_COPY.md`, guía Payhip en `AUTO_DELIVERY_UPGRADE.md` |
+| **App en producción (Vercel `scopecraft-sow`)** | Activo | https://scopecraft-sow.vercel.app (Vercel Analytics + PayPal conectado) |
+| **Product Hunt** | **Programado** | `https://www.producthunt.com/products/scopecraft-2/scopecraft-2/prelaunch` — sale hoy Viernes 27 nov 12:01am PT (05:01am ART) con portada `1280x720`, 3 tags (`Productivity`, `Freelance`, `SaaS`), `Free Options` y Maker First Comment guardado |
+| **Google Search Console** | **Verificado + Sitemap enviado** | Propiedad verificada por HTML (`googleeeadd0343e341097.html` + meta tag); `/sitemap.xml` en estado **Correcto** con **33 páginas descubiertas** |
+| **IndexNow (Bing / DuckDuckGo / Yandex)** | **Enviado** | `HTTP/2 200` en `api.indexnow.org/indexnow` y `HTTP/2 202` en `www.bing.com/indexnow` (33 URLs) |
+| **GitHub público** | **Publicado** | `https://github.com/matiascorrea2024-star/scopecraft-sow` (cero secretos ni claves en texto plano) |
+| **IndieHackers** | Sesión iniciada (`CraftApp`), restringido por antigüedad | `/new-post` pide dejar algunos comentarios útiles antes de habilitar publicación (o IH+) |
+| **AlternativeTo** | Requiere login manual | `Sign in` usa Google OAuth bloqueado por sandbox (`accounts.google.com`) |
+| **Hacker News / Payhip** | Requieren login manual | HN usa usuario/contraseña; Payhip requiere login + vincular tu PayPal |
 
 ---
 
-## 3. Directorios externos probados con Google OAuth en navegador interno
+## 3. Cuando te despiertes (solo lo que depende de tu cuenta personal)
 
-Intentamos iniciar sesión con tu cuenta `matiascorrea2024@gmail.com` en **Product Hunt**, **AlternativeTo** e **IndieHackers** desde el navegador interno:
-- En los tres portales existe el botón **Continue with Google / Google**, pero al hacer clic el entorno de seguridad del navegador interno bloquea la navegación automática del agente hacia `accounts.google.com` (`NAVIGATION_NEEDS_PERMISSION` / host de autenticación protegido).
-- **Hacker News** (`https://news.ycombinator.com/submit`) no tiene login con Google (solo usuario/contraseña).
-- **Payhip** (`https://payhip.com/`) requiere registro/login y vinculación directa de tu PayPal.
-
----
-
-## 4. Lo único que queda para que hagas en 5 minutos cuando te despiertes
-
-1. **Publicar con tu clic de Google Login (Product Hunt, AlternativeTo, IndieHackers y Show HN):** Abrí esos sitios en tu navegador, tocá **Continue with Google** con `matiascorrea2024@gmail.com`, y pegá los textos exactos de `launch_kit/LAUNCH_COPY.md` junto con la portada `launch_kit/editorial_cover_1280x720.png`.
-2. **Automatizar entrega 24/7 al entrar las primeras ventas:** Seguí `launch_kit/AUTO_DELIVERY_UPGRADE.md` para cargar las claves de `launch_kit/license_keys_500.txt` en Payhip (conectado a tu mismo PayPal) y setear `NEXT_PUBLIC_BILLING_PROVIDER=payhip` en Vercel. Mientras tanto, si te pagan directo por `paypal.me/craftappstudio`, entregás una línea de `launch_kit/license_keys_500.txt`.
+1. **Product Hunt (ya sale solo a las 05:01am ART):** Durante el día respondé comentarios en `https://www.producthunt.com/products/scopecraft-2?launch=scopecraft-2` usando tu cuenta `@matias_correa`.
+2. **IndieHackers / AlternativeTo / Show HN (5 min):** En IndieHackers dejá 2–3 comentarios útiles con tu cuenta `CraftApp` para destrabar `/new-post`, y en AlternativeTo / Hacker News pegá el copy de `launch_kit/LAUNCH_COPY.md`.
+3. **Primeras ventas y entrega automática:** Si entra un pago por `paypal.me/craftappstudio`, respondés con una línea de `launch_kit/license_keys_500.txt`. Para automatizar 24/7, seguí los 3 pasos de `launch_kit/AUTO_DELIVERY_UPGRADE.md` con Payhip.

@@ -149,8 +149,8 @@ export function PricingClient() {
               <h2 className="font-serif text-2xl text-ink">Activate License Key</h2>
             </div>
             <p className="text-xs text-ink-secondary leading-relaxed">
-              Include your email in the PayPal note when checking out. Once you receive your{" "}
-              <span className="font-mono text-ink">SC-PRO-XXXX-XXXX-XXXX</span> key, paste it below to unlock Pro on this device.
+              Pay via <span className="font-mono text-ink">paypal.me/craftappstudio</span> (one-time monthly or annual pass, no unexpected auto-rebilling) and include your preferred email in the PayPal note. Once you receive your{" "}
+              <span className="font-mono text-ink">SC-PRO-XXXX-XXXX-XXXX</span> key, paste it below to unlock Pro on this browser. Save your key email if you switch devices.
             </p>
             <form onSubmit={handleActivate} className="flex flex-col sm:flex-row gap-2.5">
               <div className="relative flex-1">

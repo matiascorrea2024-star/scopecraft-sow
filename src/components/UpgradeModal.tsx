@@ -213,17 +213,20 @@ export function UpgradeModal({
 
               <div className="rounded-md bg-subtle border border-hairline p-4 space-y-2">
                 <p className="text-xs font-semibold text-ink">
-                  2-Step Activation Flow
+                  How Checkout &amp; License Activation Work
                 </p>
                 <ol className="text-xs text-ink-secondary space-y-1 list-decimal list-inside leading-relaxed">
                   <li>
-                    Complete payment at{" "}
+                    Complete payment via{" "}
                     <span className="font-mono text-ink">paypal.me/craftappstudio</span>{" "}
-                    and paste your email in the PayPal note so we send your{" "}
-                    <span className="font-mono text-ink">SC-PRO-...</span> license key.
+                    (no automatic recurring charge unless switched to subscription). Include your preferred delivery email in the PayPal note.
                   </li>
                   <li>
-                    Enter your license key below to unlock zero-watermark PDFs, custom logo &amp; accent color, Change Order mode, 3-tier options, and all 30 templates.
+                    Your unique <span className="font-mono text-ink">SC-PRO-...</span> license key is sent to that email (typically within a few hours; reach{" "}
+                    <span className="font-mono text-ink">{SUPPORT_EMAIL}</span> anytime if you paid from a different PayPal email).
+                  </li>
+                  <li>
+                    Paste the key below to unlock Pro in this browser. Keep your key email safe in case you switch devices or clear browser storage.
                   </li>
                 </ol>
                 <div className="pt-1 flex flex-wrap items-center gap-2">

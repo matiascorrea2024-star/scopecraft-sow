@@ -252,3 +252,44 @@ export function generateMarkdownExport(doc: SowDocument, isPro: boolean): string
 
   return lines.join("\n");
 }
+
+export function generateShareableSummary(doc: SowDocument, isPro: boolean): string {
+  const total = calculateTotal(doc);
+  const milestones = calculateMilestones(doc.milestones, total);
+  const header =
+    doc.mode === "change_order"
+      ? `Change Order Summary — ${doc.projectTitle}`
+      : `Project Scope Summary — ${doc.projectTitle}`;
+
+  const lines: string[] = [
+    header,
+    `Doc #: ${doc.documentNumber} | Total: ${formatCurrency(total, doc.currency)}`,
+    "",
+    "Included Deliverables:",
+    ...doc.deliverables.map(
+      (d) =>
+        `- ${d.title} (${formatCurrency(calculateDeliverableLineTotal(d), doc.currency)})`
+    ),
+    "",
+    "Explicit Exclusions:",
+    ...doc.exclusions.map((ex) => `- ${ex}`),
+    "",
+    "Payment Schedule:",
+    ...milestones.map(
+      (m) => `- ${m.label}: ${m.percentage}% (${formatCurrency(m.amount, doc.currency)})`
+    ),
+    "",
+    `Revisions: ${doc.revisionRounds} round(s) | Out-of-scope rate: ${formatCurrency(
+      doc.changeOrderRate,
+      doc.currency
+    )}/hr`,
+  ];
+
+  if (!isPro) {
+    lines.push("", "Prepared with ScopeCraft · https://scopecraft-sow.vercel.app");
+  } else if (doc.brand.customFooter.trim()) {
+    lines.push("", doc.brand.customFooter.trim());
+  }
+
+  return lines.join("\n");
+}

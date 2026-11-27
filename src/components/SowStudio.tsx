@@ -6,6 +6,7 @@ import {
   AlertTriangle,
   ArrowRight,
   Check,
+  ChevronDown,
   Copy,
   Download,
   FilePlus2,
@@ -13,6 +14,7 @@ import {
   Plus,
   RotateCcw,
   Save,
+  Share2,
   ShieldCheck,
   Sparkles,
   Trash2,
@@ -46,6 +48,7 @@ import {
   evaluateScopeProtection,
   formatCurrency,
   generateMarkdownExport,
+  generateShareableSummary,
   roundMoney,
 } from "@/lib/sowMath";
 import { CurrencyCode, SavedProject, SowDocument } from "@/types/sow";
@@ -84,6 +87,9 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
   const [savedDrafts, setSavedDrafts] = useState<SavedProject[]>([]);
   const [newExclusion, setNewExclusion] = useState("");
   const [copiedMd, setCopiedMd] = useState(false);
+  const [sharedSummary, setSharedSummary] = useState(false);
+  const [showPostExportUpgrade, setShowPostExportUpgrade] = useState(false);
+  const [showScoreDetails, setShowScoreDetails] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -188,7 +194,80 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
       total,
       templateSlug: doc.templateSlug,
     });
-    showToast(isPro ? "Clean white-label PDF exported." : "PDF exported.");
+    if (!isPro) {
+      setShowPostExportUpgrade(true);
+    }
+    showToast(isPro ? "Clean white-label PDF exported." : "PDF exported — ready to send.");
+  };
+
+  const handleShareSummary = async () => {
+    const summaryText = generateShareableSummary(doc, isPro);
+    trackEvent("share_summary_clicked", { isPro, mode: doc.mode });
+
+    if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+      try {
+        await navigator.share({
+          title: doc.projectTitle || "ScopeCraft Project Summary",
+          text: summaryText,
+        });
+        showToast("Scope summary shared.");
+        return;
+      } catch {
+        // Fallback to clipboard if user cancels native share sheet
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(summaryText);
+      setSharedSummary(true);
+      setTimeout(() => setSharedSummary(false), 2200);
+      showToast("Client-ready scope summary copied.");
+    } catch {
+      showToast("Clipboard blocked by browser.");
+    }
+  };
+
+  const handleExportJsonBackup = () => {
+    const payload = JSON.stringify({ current: doc, drafts: savedDrafts }, null, 2);
+    const blob = new Blob([payload], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `scopecraft-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    trackEvent("json_backup_exported", { draftCount: savedDrafts.length });
+    showToast("JSON backup downloaded.");
+  };
+
+  const handleImportJsonBackup = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result)) as {
+          current?: SowDocument;
+          drafts?: SavedProject[];
+        };
+        if (parsed.current && parsed.current.projectTitle) {
+          setDoc(parsed.current);
+        }
+        if (Array.isArray(parsed.drafts)) {
+          setSavedDrafts((prev) => {
+            const seen = new Set(parsed.drafts!.map((d) => d.id));
+            const merged = [...parsed.drafts!, ...prev.filter((d) => !seen.has(d.id))];
+            const allowed = isPro ? merged : merged.slice(0, 2);
+            window.localStorage.setItem(DRAFTS_STORAGE_KEY, JSON.stringify(allowed));
+            return allowed;
+          });
+        }
+        showToast("Backup restored.");
+      } catch {
+        showToast("Invalid JSON backup file.");
+      }
+    };
+    reader.readAsText(file);
   };
 
   const handleCopyMarkdown = async () => {
@@ -280,7 +359,12 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
       if (checkId === "ip_transfer") return { ...prev, ipTransferOnFullPayment: true };
       return prev;
     });
-    showToast("Applied Scope Guardrail.");
+    trackEvent("scope_autofix_used", { checkId });
+    showToast(
+      isPro
+        ? "Applied Scope Guardrail."
+        : "Scope tightened. Ready to white-label your studio PDF?"
+    );
   };
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -485,15 +569,32 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                         </p>
                       </div>
                     </div>
-                    {firstFailedCheck && (
+                    <div className="flex items-center gap-2 shrink-0">
+                      {firstFailedCheck && (
+                        <button
+                          type="button"
+                          onClick={() => handleQuickFixGuardrail(firstFailedCheck.id)}
+                          className="min-h-[36px] px-2.5 rounded border border-forest/30 bg-forest-tint text-forest text-xs font-medium hover:bg-forest hover:text-white transition-colors"
+                        >
+                          Auto-fix
+                        </button>
+                      )}
                       <button
                         type="button"
-                        onClick={() => handleQuickFixGuardrail(firstFailedCheck.id)}
-                        className="min-h-[36px] px-2.5 rounded border border-forest/30 bg-forest-tint text-forest text-xs font-medium hover:bg-forest hover:text-white transition-colors shrink-0"
+                        onClick={() => setShowScoreDetails((v) => !v)}
+                        aria-expanded={showScoreDetails}
+                        className="min-h-[36px] px-2 rounded border border-hairline bg-canvas text-[11px] font-medium text-ink-secondary hover:text-ink inline-flex items-center gap-1"
                       >
-                        Auto-fix
+                        <span>
+                          {scopeReport.checks.filter((c) => c.passed).length}/{scopeReport.checks.length}
+                        </span>
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 transition-transform ${
+                            showScoreDetails ? "rotate-180" : ""
+                          }`}
+                        />
                       </button>
-                    )}
+                    </div>
                   </div>
                   <div className="mt-2.5 h-1.5 w-full bg-subtle rounded-full overflow-hidden">
                     <div
@@ -514,6 +615,30 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                       <AlertTriangle className="w-3.5 h-3.5 text-amber-700 shrink-0" />
                       <span>{firstFailedCheck.fixHint}</span>
                     </p>
+                  )}
+                  {showScoreDetails && (
+                    <div className="mt-3 pt-3 border-t border-hairline space-y-1.5">
+                      {scopeReport.checks.map((chk) => (
+                        <div
+                          key={chk.id}
+                          className="flex items-center justify-between gap-2 text-[11px]"
+                        >
+                          <span
+                            className={
+                              chk.passed ? "text-ink-secondary" : "text-amber-800 font-medium"
+                            }
+                          >
+                            {chk.passed ? "✓" : "•"} {chk.label}
+                          </span>
+                          <span className="font-mono text-ink-muted tabular-nums shrink-0">
+                            {chk.points}/{chk.maxPoints}
+                          </span>
+                        </div>
+                      ))}
+                      <p className="pt-1 text-[10px] text-ink-muted">
+                        Measures commercial scope completeness, not formal legal counsel.
+                      </p>
+                    </div>
                   )}
                 </div>
 
@@ -652,7 +777,30 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                           </div>
                         )}
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-hairline">
+                        <div className="flex items-center justify-between pt-2 border-t border-hairline">
+                          <span className="text-[11px] text-ink-muted">
+                            Pre-filled with sample studio &amp; client placeholders.
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setDoc((prev) => ({
+                                ...prev,
+                                providerName: "",
+                                providerContact: "",
+                                providerEmail: "",
+                                clientCompany: "",
+                                clientContact: "",
+                                clientEmail: "",
+                              }))
+                            }
+                            className="text-xs font-medium text-forest hover:underline shrink-0"
+                          >
+                            Clear sample parties
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="space-y-2.5">
                             <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
                               Your Studio / Firm
@@ -1436,6 +1584,29 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                             ))}
                           </div>
                         )}
+                        <div className="pt-3 border-t border-hairline flex flex-wrap items-center justify-between gap-2">
+                          <p className="text-[11px] text-ink-muted">
+                            Drafts live in your browser only — export JSON anytime for backup.
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={handleExportJsonBackup}
+                              className="min-h-[36px] px-3 rounded border border-hairline bg-paper text-xs font-medium text-ink hover:border-forest"
+                            >
+                              Export JSON
+                            </button>
+                            <label className="min-h-[36px] px-3 rounded border border-hairline bg-paper text-xs font-medium text-ink hover:border-forest inline-flex items-center cursor-pointer">
+                              <span>Restore JSON</span>
+                              <input
+                                type="file"
+                                accept="application/json"
+                                onChange={handleImportJsonBackup}
+                                className="sr-only"
+                              />
+                            </label>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1461,6 +1632,23 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                     </button>
                     <button
                       type="button"
+                      onClick={handleShareSummary}
+                      className="min-h-[44px] px-2.5 sm:px-3 rounded-md border border-hairline bg-canvas hover:border-forest text-xs font-medium text-ink inline-flex items-center gap-1.5"
+                    >
+                      {sharedSummary ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-forest" />
+                          <span>Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Share2 className="w-3.5 h-3.5" />
+                          <span>Share Summary</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
                       onClick={handleCopyMarkdown}
                       className="min-h-[44px] px-2.5 sm:px-3 rounded-md border border-hairline bg-canvas hover:border-ink-muted text-xs font-medium text-ink inline-flex items-center gap-1.5"
                     >
@@ -1479,7 +1667,7 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                     <button
                       type="button"
                       onClick={handleSaveDraft}
-                      className="min-h-[44px] px-2.5 sm:px-3 rounded-md border border-hairline bg-canvas hover:border-ink-muted text-xs font-medium text-ink inline-flex items-center gap-1.5"
+                      className="hidden sm:inline-flex min-h-[44px] px-2.5 sm:px-3 rounded-md border border-hairline bg-canvas hover:border-ink-muted text-xs font-medium text-ink items-center gap-1.5"
                     >
                       <Save className="w-3.5 h-3.5" />
                       <span>Save</span>
@@ -1501,12 +1689,75 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                   </button>
                 </div>
 
+                {showPostExportUpgrade && !isPro && (
+                  <div
+                    data-testid="post-export-upgrade"
+                    className="rounded-lg border border-forest/30 bg-forest-tint p-4 space-y-2.5"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-wider text-forest font-semibold">
+                          PDF Exported — Ready to Send
+                        </p>
+                        <p className="text-sm font-semibold text-ink mt-0.5">
+                          Make every client SOW look like your own studio.
+                        </p>
+                        <p className="text-xs text-ink-secondary mt-1">
+                          Remove the ScopeCraft footer, add your logo and brand color, and unlock all 30 templates ($12/mo).
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowPostExportUpgrade(false)}
+                        className="text-xs text-ink-muted hover:text-ink px-1.5 py-0.5"
+                        aria-label="Dismiss upgrade banner"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setUpgradeOpen(true)}
+                        className="min-h-[40px] px-4 rounded-md bg-forest hover:bg-forest-hover text-white text-xs font-medium"
+                      >
+                        Unlock Studio Pro — $12/mo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setUpgradeOpen(true)}
+                        className="min-h-[40px] px-3 rounded-md border border-hairline bg-paper text-xs font-medium text-ink hover:border-forest"
+                      >
+                        Already have a license key?
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {toast && (
                   <div
                     role="status"
                     className="px-3.5 py-2 rounded-md bg-ink text-white text-xs font-medium flex items-center justify-between"
                   >
                     <span>{toast}</span>
+                  </div>
+                )}
+
+                {doc.providerName === "Northstar Digital Studio LLC" && (
+                  <div className="px-3.5 py-2 rounded-md border border-hairline bg-subtle text-[11px] text-ink-secondary flex items-center justify-between gap-2">
+                    <span>
+                      <strong className="text-ink font-mono">SAMPLE DATA:</strong> Replace Northstar / Acme details in the Parties tab before sending.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveTab("parties");
+                        setMobilePane("editor");
+                      }}
+                      className="text-forest font-medium hover:underline shrink-0"
+                    >
+                      Edit parties
+                    </button>
                   </div>
                 )}
 

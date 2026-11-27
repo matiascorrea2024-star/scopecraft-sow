@@ -5,6 +5,9 @@ import { track } from "@vercel/analytics";
 export type AnalyticsEvent =
   | "sow_pdf_exported"
   | "sow_markdown_copied"
+  | "share_summary_clicked"
+  | "scope_autofix_used"
+  | "json_backup_exported"
   | "template_loaded"
   | "paypal_checkout_clicked"
   | "pro_license_activated"

@@ -44,22 +44,22 @@ function resolveCheckoutUrl(plan: PlanId): string {
 export const BILLING_PLANS: Record<PlanId, BillingPlan> = {
   monthly: {
     id: "monthly",
-    name: "ScopeCraft Pro Monthly",
+    name: "ScopeCraft Pro (30-Day Pass)",
     priceUsd: 12,
-    intervalLabel: "/mo",
-    description: "Zero watermark, custom studio branding, Change Orders, and all 30 templates.",
+    intervalLabel: "/ 30-day pass",
+    description: "One-time $12 payment (no auto-renewal). Zero watermark, custom branding, Change Orders, and all 30 templates.",
     checkoutUrl: resolveCheckoutUrl("monthly"),
-    paypalNoteTemplate: "ScopeCraft Pro Monthly ($12) - your@email.com",
+    paypalNoteTemplate: "ScopeCraft Pro 30-Day ($12) - your@email.com",
   },
   annual: {
     id: "annual",
-    name: "ScopeCraft Pro Annual",
+    name: "ScopeCraft Pro (365-Day Pass)",
     priceUsd: 79,
-    intervalLabel: "/yr",
+    intervalLabel: "/ 365-day pass",
     badge: "Save 45%",
-    description: "Full annual license for studios & agencies. Less than one hour of billable work.",
+    description: "One-time $79 payment (no auto-renewal). Full year of studio branding & all 30 templates.",
     checkoutUrl: resolveCheckoutUrl("annual"),
-    paypalNoteTemplate: "ScopeCraft Pro Annual ($79) - your@email.com",
+    paypalNoteTemplate: "ScopeCraft Pro 365-Day ($79) - your@email.com",
   },
 };
 

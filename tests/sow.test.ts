@@ -8,6 +8,7 @@ import {
   evaluateScopeProtection,
   formatCurrency,
   generateMarkdownExport,
+  generateShareableSummary,
 } from "@/lib/sowMath";
 
 describe("SOW Financial & Scope Protection Math", () => {
@@ -67,5 +68,15 @@ describe("SOW Financial & Scope Protection Math", () => {
   it("formats USD currency cleanly", () => {
     expect(formatCurrency(7900, "USD")).toBe("$7,900");
     expect(formatCurrency(125.5, "USD")).toBe("$125.50");
+  });
+
+  it("generates shareable scope summary with attribution in free and clean in Pro", () => {
+    const doc = buildDocumentFromTemplate(SOW_TEMPLATES[0]);
+    const freeSummary = generateShareableSummary(doc, false);
+    const proSummary = generateShareableSummary(doc, true);
+
+    expect(freeSummary).toContain("Project Scope Summary");
+    expect(freeSummary).toContain("Prepared with ScopeCraft");
+    expect(proSummary).not.toContain("Prepared with ScopeCraft");
   });
 });
