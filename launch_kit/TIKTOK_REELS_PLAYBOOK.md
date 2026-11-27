@@ -1,6 +1,6 @@
 # TikTok, Reels & YouTube Shorts Organic Viral Playbook (CraftApp Studio)
 
-**Bio Link Strategy:** Point TikTok / Instagram / YouTube Shorts bio to CraftApp Studio Hub (or `https://scopecraft-sow.vercel.app/audit` directly while testing ScopeCraft).
+**Bio Link Strategy:** Point TikTok / Instagram / YouTube Shorts bio to `https://craftapp-hub.vercel.app/?from=tiktok&tool=audit` (or `?tool=scope`), which spotlights the exact featured tool at the top and routes visitors straight into ScopeCraft & RateCraft.
 
 ---
 
