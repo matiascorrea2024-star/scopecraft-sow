@@ -27,6 +27,14 @@ export function Footer() {
           <Link href="/pricing" className="hover:text-ink">
             Pricing &amp; License
           </Link>
+          <a
+            href="https://ratecraft-app.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-ink"
+          >
+            RateCraft Pricing
+          </a>
         </div>
       </div>
     </footer>
