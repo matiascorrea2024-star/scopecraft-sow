@@ -18,6 +18,9 @@ export function Footer() {
           <Link href="/#studio" className="hover:text-ink">
             SOW Builder
           </Link>
+          <Link href="/audit" className="hover:text-ink">
+            Scope-Creep Check
+          </Link>
           <Link href="/templates" className="hover:text-ink">
             30 Industry Templates
           </Link>

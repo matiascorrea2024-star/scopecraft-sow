@@ -39,6 +39,9 @@ export function Header({ isPro = false, onOpenUpgrade }: HeaderProps) {
           <Link href="/#studio" className="hover:text-ink transition-colors">
             Builder
           </Link>
+          <Link href="/audit" className="hover:text-ink transition-colors">
+            Scope Check
+          </Link>
           <Link href="/templates" className="hover:text-ink transition-colors">
             30 Templates
           </Link>

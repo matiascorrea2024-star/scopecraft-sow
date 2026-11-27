@@ -10,6 +10,7 @@ import {
   Copy,
   Download,
   FilePlus2,
+  Link2,
   Lock,
   Plus,
   RotateCcw,
@@ -38,6 +39,7 @@ import {
   verifyLicenseKeyClient,
 } from "@/lib/license";
 import { exportSowToPdf } from "@/lib/pdfExport";
+import { encodeSharePayload } from "@/lib/shareLink";
 import {
   calculateDeliverableLineTotal,
   calculateMilestonePercentageSum,
@@ -88,6 +90,7 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
   const [newExclusion, setNewExclusion] = useState("");
   const [copiedMd, setCopiedMd] = useState(false);
   const [sharedSummary, setSharedSummary] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [showPostExportUpgrade, setShowPostExportUpgrade] = useState(false);
   const [showScoreDetails, setShowScoreDetails] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -222,6 +225,22 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
       setSharedSummary(true);
       setTimeout(() => setSharedSummary(false), 2200);
       showToast("Client-ready scope summary copied.");
+    } catch {
+      showToast("Clipboard blocked by browser.");
+    }
+  };
+
+  const handleCopyClientLink = async () => {
+    const encoded = encodeSharePayload(doc, isPro);
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : SITE_URL;
+    const shareUrl = `${origin}/view#d=${encoded}`;
+    trackEvent("share_summary_clicked", { isPro, source: "client_link" });
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2200);
+      showToast("Read-only Client Link copied (emails omitted for privacy).");
     } catch {
       showToast("Clipboard blocked by browser.");
     }
@@ -1620,8 +1639,8 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                 }`}
               >
                 {/* Action Toolbar */}
-                <div className="bg-paper border border-hairline rounded-lg p-2 flex items-center justify-between gap-1.5 sm:gap-2">
-                  <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="bg-paper border border-hairline rounded-lg p-2 flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     <button
                       type="button"
                       onClick={handleDownloadPdf}
@@ -1644,6 +1663,23 @@ export function SowStudio({ initialTemplateSlug }: SowStudioProps) {
                         <>
                           <Share2 className="w-3.5 h-3.5" />
                           <span>Share Summary</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCopyClientLink}
+                      className="min-h-[44px] px-2.5 sm:px-3 rounded-md border border-hairline bg-canvas hover:border-forest text-xs font-medium text-ink inline-flex items-center gap-1.5"
+                    >
+                      {copiedLink ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-forest" />
+                          <span>Link Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Link2 className="w-3.5 h-3.5" />
+                          <span>Client Link</span>
                         </>
                       )}
                     </button>

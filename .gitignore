@@ -7,6 +7,7 @@ out/
 !.env.example
 audit_screenshots/
 launch_kit/license_keys_500.txt
+launch_kit/viral_videos/*.mp4
 coverage/
 *.tsbuildinfo
 next-env.d.ts

@@ -67,7 +67,7 @@ with sync_playwright() as p:
     )
     page.on("pageerror", lambda err: report["page_errors"].append(str(err)))
 
-    for route in ["/", "/templates", "/templates/web-development-sow", "/pricing"]:
+    for route in ["/", "/audit", "/view", "/templates", "/templates/web-development-sow", "/pricing"]:
         page.goto(f"{BASE_URL}{route}", wait_until="networkidle")
         dims = page.evaluate(
             "() => ({ scrollW: document.documentElement.scrollWidth, innerW: window.innerWidth })"
@@ -126,9 +126,13 @@ with sync_playwright() as p:
     pro_persisted = page.get_by_role("button", name="PRO ACTIVE").is_visible()
     page.screenshot(path=str(SHOTS_DIR / "desktop_pro_active.png"), full_page=False)
 
-    # Capture SEO Template page
+    # Capture SEO Template page + Audit calculator page
     page.goto(f"{BASE_URL}/templates/web-development-sow", wait_until="networkidle")
     page.screenshot(path=str(SHOTS_DIR / "desktop_seo_template.png"), full_page=False)
+    page.goto(f"{BASE_URL}/audit", wait_until="networkidle")
+    audit_exposure = page.get_by_test_id("audit-exposure").inner_text()
+    page.screenshot(path=str(SHOTS_DIR / "desktop_audit.png"), full_page=False)
+    report["flows"]["audit_exposure_default"] = audit_exposure
 
     report["flows"] = {
         "updated_total": updated_total,
@@ -152,7 +156,7 @@ with sync_playwright() as p:
         if msg.type == "error"
         else None,
     )
-    for route in ["/", "/templates", "/templates/web-development-sow", "/pricing"]:
+    for route in ["/", "/audit", "/view", "/templates", "/templates/web-development-sow", "/pricing"]:
         mp.goto(f"{BASE_URL}{route}", wait_until="networkidle")
         dims = mp.evaluate(
             "() => ({ scrollW: document.documentElement.scrollWidth, innerW: window.innerWidth })"
@@ -164,6 +168,8 @@ with sync_playwright() as p:
                 "overflow_px": max(0, dims["scrollW"] - dims["innerW"]),
             }
         )
+    mp.goto(f"{BASE_URL}/audit", wait_until="networkidle")
+    mp.screenshot(path=str(SHOTS_DIR / "mobile_390_audit.png"), full_page=False)
     mp.goto(f"{BASE_URL}/", wait_until="networkidle")
     mp.screenshot(path=str(SHOTS_DIR / "mobile_390_home.png"), full_page=False)
     mp.get_by_role("button", name="Live Document").click()
