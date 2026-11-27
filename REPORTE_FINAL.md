@@ -33,18 +33,16 @@ Después de analizar 3 nichos B2B/prosumer en EE. UU. (detalle completo en `RESE
 
 ---
 
-## 3. Estado de directorios externos (chequeados en navegador interno)
+## 3. Directorios externos probados con Google OAuth en navegador interno
 
-Se revisaron los 5 portales en el navegador interno; ninguno tenía sesión iniciada (`LOGIN_REQUIRED`) y no se crearon cuentas ni se saltearon accesos:
-- **Hacker News (Show HN):** `https://news.ycombinator.com/submit` — requiere login.
-- **Product Hunt:** `https://www.producthunt.com/posts/new` — redirige a login/signup.
-- **AlternativeTo:** `https://alternativeto.net/` — `Suggest new application` requiere iniciar sesión.
-- **IndieHackers:** `https://www.indiehackers.com/new-post` — redirige a `/sign-in`.
-- **Payhip:** `https://payhip.com/` — sin sesión iniciada (`Login` visible).
+Intentamos iniciar sesión con tu cuenta `matiascorrea2024@gmail.com` en **Product Hunt**, **AlternativeTo** e **IndieHackers** desde el navegador interno:
+- En los tres portales existe el botón **Continue with Google / Google**, pero al hacer clic el entorno de seguridad del navegador interno bloquea la navegación automática del agente hacia `accounts.google.com` (`NAVIGATION_NEEDS_PERMISSION` / host de autenticación protegido).
+- **Hacker News** (`https://news.ycombinator.com/submit`) no tiene login con Google (solo usuario/contraseña).
+- **Payhip** (`https://payhip.com/`) requiere registro/login y vinculación directa de tu PayPal.
 
 ---
 
-## 4. Los únicos 2 pasos que te quedan (cuando quieras)
+## 4. Lo único que queda para que hagas en 5 minutos cuando te despiertes
 
-1. **Publicar el lanzamiento (5 min):** Iniciá sesión en Product Hunt, Hacker News (`news.ycombinator.com/submit`), AlternativeTo e IndieHackers y pegá los textos de `launch_kit/LAUNCH_COPY.md` junto con `launch_kit/editorial_cover_1280x720.png`.
-2. **Automatizar entrega 24/7 al entrar las primeras ventas (3 min):** Seguí `launch_kit/AUTO_DELIVERY_UPGRADE.md` para cargar las claves de `launch_kit/license_keys_500.txt` en Payhip (conectado a tu mismo PayPal) y setear `NEXT_PUBLIC_BILLING_PROVIDER=payhip` en Vercel. Mientras tanto, si te pagan directo por `paypal.me/craftappstudio`, entregás una línea de `launch_kit/license_keys_500.txt`.
+1. **Publicar con tu clic de Google Login (Product Hunt, AlternativeTo, IndieHackers y Show HN):** Abrí esos sitios en tu navegador, tocá **Continue with Google** con `matiascorrea2024@gmail.com`, y pegá los textos exactos de `launch_kit/LAUNCH_COPY.md` junto con la portada `launch_kit/editorial_cover_1280x720.png`.
+2. **Automatizar entrega 24/7 al entrar las primeras ventas:** Seguí `launch_kit/AUTO_DELIVERY_UPGRADE.md` para cargar las claves de `launch_kit/license_keys_500.txt` en Payhip (conectado a tu mismo PayPal) y setear `NEXT_PUBLIC_BILLING_PROVIDER=payhip` en Vercel. Mientras tanto, si te pagan directo por `paypal.me/craftappstudio`, entregás una línea de `launch_kit/license_keys_500.txt`.
